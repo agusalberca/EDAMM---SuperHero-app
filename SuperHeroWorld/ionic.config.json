@@ -1,0 +1,7 @@
+{
+  "name": "SuperHeroWorld",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
