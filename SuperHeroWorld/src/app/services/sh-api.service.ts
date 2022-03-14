@@ -15,8 +15,12 @@ export class ShAPIService {
 
   public search(input_value:string): Observable<any> {
     // console.log(environment.access_token)
-    // console.log(this.baseURL + "search/" + input_value)
     return this.http.get( this.baseURL + "search/" + input_value)
+  }
+  public characterByID(char_id:number): Observable<any> {
+    // console.log(this.baseURL + "search/" + char_id)
+    let res = this.http.get( this.baseURL + char_id)
+    return res
   }
   
 }

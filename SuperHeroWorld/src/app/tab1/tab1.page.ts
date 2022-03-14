@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { ShAPIService } from '../services/sh-api.service';
 import { DatabaseService } from '../services/database.service';
+import { Router } from '@angular/router';
+import { CharacterDetailPage } from '../pages/character-detail/character-detail.page';
+
 
 @Component({
   selector: 'app-tab1',
@@ -15,6 +18,7 @@ export class Tab1Page {
   constructor(
     private ShAPI: ShAPIService,
     private db: DatabaseService,
+    private router: Router,
   ) {}
   
   APIsearch(input_value){
@@ -34,5 +38,9 @@ export class Tab1Page {
     });
     console.log("FAVS")
     console.log(this.db.getFavs())
+  }
+
+  navToCharacterDetail(char_id) {
+    this.router.navigate([`/character-detail/${char_id}`]);
   }
 }

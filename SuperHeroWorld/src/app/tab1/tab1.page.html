@@ -17,11 +17,11 @@
   (ionInput)="APIsearch($event.target.value)"
   placeholder="Search"></ion-searchbar>
   <ion-list>
-    <ion-item *ngFor="let res of results">
+    <ion-item *ngFor="let res of results" >
       <ion-avatar slot="start">
         <img [src]="res.image.url">
       </ion-avatar>
-      <ion-label>{{ res.name }}</ion-label>
+      <ion-label (click)="navToCharacterDetail(res.id)">{{ res.name }}</ion-label>
       <ion-label color="medium" slot="end">{{ res.biography.publisher }}</ion-label>
       <ion-icon [name]="faved ? 'bookmark' : 'bookmark-outline'" (click)="favorite(res.id, res.name, res.image.url)" slot="end"></ion-icon>
     </ion-item>

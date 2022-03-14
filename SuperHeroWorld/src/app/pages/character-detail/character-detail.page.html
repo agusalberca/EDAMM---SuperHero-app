@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Character Detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isDataAvailable">    
+    <ion-card>
+      {{ superhero }}
+      <ion-card-header>
+        <img [src]="superhero?.image">
+        <ion-card-subtitle>{{ superhero?.biography?.fullname }}</ion-card-subtitle>
+        <ion-card-title>{{ superhero?.name }}</ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+        Publisher: {{ superhero?.biography?.publisher }}
+        Biography: {{ superhero?.biography }}
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
