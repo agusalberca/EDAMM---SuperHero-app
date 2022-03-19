@@ -28,18 +28,6 @@ export class Tab1Page {
   });
   }
 
-  favorite(char_id, name, image){
-    console.log(char_id, name, image)
-    console.log("FAV")
-    this.db.dbState().subscribe((res) => {
-      if(res){
-        this.db.addFav(char_id, name, image);
-      }
-    });
-    console.log("FAVS")
-    console.log(this.db.getFavs())
-  }
-
   navToCharacterDetail(char_id) {
     this.router.navigate([`/character-detail/${char_id}`]);
   }

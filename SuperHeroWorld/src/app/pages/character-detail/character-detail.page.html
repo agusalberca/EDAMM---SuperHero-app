@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
     <ion-title>Character Detail</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -7,17 +10,50 @@
 <ion-content>
   <div *ngIf="isDataAvailable">    
     <ion-card>
-      {{ superhero }}
       <ion-card-header>
-        <img [src]="superhero?.image">
-        <ion-card-subtitle>{{ superhero?.biography?.fullname }}</ion-card-subtitle>
-        <ion-card-title>{{ superhero?.name }}</ion-card-title>
+        <img [src]="superhero?.image.url">
+        <ion-card-subtitle>{{ superhero?.biography?.publisher }}</ion-card-subtitle>
+        <ion-card-title>
+          {{ superhero?.name }}
+          <ion-icon [name]="faved ? 'bookmark' : 'bookmark-outline'" (click)="favorite()"></ion-icon>
+        </ion-card-title>
       </ion-card-header>
-    
       <ion-card-content>
-        Publisher: {{ superhero?.biography?.publisher }}
-        Biography: {{ superhero?.biography }}
+        <ion-label>Apariencia: </ion-label>
+        {{ superhero?.appearance?.race }}, 
+        {{ superhero?.appearance?.gender }}, 
+        {{ superhero?.appearance?.height }}
+        <br>
+        <ion-label>Ocupacion: </ion-label>{{ superhero?.work?.occupation }}
+        <br>
+        <ion-label>Powerstats: </ion-label>
+        <br>
+        Inteligencia:  {{ superhero?.powerstats?.intelligence }}
+        <br>
+        Fuerza: {{ superhero?.powerstats?.strength }}
+        <br>
+        Velocidad: {{ superhero?.powerstats?.speed }}
+        <br>
+        Durabilidad: {{ superhero?.powerstats?.durability }}
+        <br>
+        Poder: {{ superhero?.powerstats?.power }}
+        <br>
+        Combate: {{ superhero?.powerstats?.combat }}
       </ion-card-content>
+      
+      <ion-button color="light" type="submit" shape="round" expand="full" 
+        (click)="shareviaWhatsapp()">
+        Share via WhatsApp
+      </ion-button>
+      <ion-button color="light" type="submit" shape="round" expand="full" 
+        (click)="shareviaFacebook()">
+        Share via Facebook
+      </ion-button>
+      <ion-button color="light" type="submit" shape="round" expand="full" 
+        (click)="shareviaInstagram()">
+        Share via Instagram
+      </ion-button>
     </ion-card>
+  
   </div>
 </ion-content>

@@ -23,7 +23,7 @@
       </ion-avatar>
       <ion-label (click)="navToCharacterDetail(res.id)">{{ res.name }}</ion-label>
       <ion-label color="medium" slot="end">{{ res.biography.publisher }}</ion-label>
-      <ion-icon [name]="faved ? 'bookmark' : 'bookmark-outline'" (click)="favorite(res.id, res.name, res.image.url)" slot="end"></ion-icon>
+      
     </ion-item>
   </ion-list>
 </ion-content>
