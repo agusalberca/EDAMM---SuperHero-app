@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ShAPIService } from '../../services/sh-api.service';
 import { DatabaseService } from '../../services/database.service';
 import { ActivatedRoute } from '@angular/router';
+import { Share } from '@capacitor/share';
+
 
 @Component({
   selector: 'app-character-detail',
@@ -14,7 +16,6 @@ export class CharacterDetailPage implements OnInit {
   public superheroImage;
   public char_id;
   public isDataAvailable = false;
-  public message = 'Checkout this photo from my favorite character';
   public faved
   constructor(
     private route: ActivatedRoute,
@@ -55,8 +56,6 @@ export class CharacterDetailPage implements OnInit {
     }).catch(e => {
       // alert(`error favorite() ${JSON.stringify(e)}`)
     })
-
-
   }
   add_favorite(){
     this.faved=true;
@@ -67,6 +66,14 @@ export class CharacterDetailPage implements OnInit {
     this.faved=false;
     this.db.deleteFav(this.char_id);
     console.log('delete_favorite getFAVS()',this.db.getFavs())
+  }
+  async share(){
+    await Share.share({
+      title: 'Superhero World Character',
+      text:  `Checkout a picture from my favorite character ${this.superhero.name}!`,
+      url: this.superhero.image.url,
+      dialogTitle: 'Share with buddies',
+    })
   }
 
 }
