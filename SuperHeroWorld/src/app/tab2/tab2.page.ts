@@ -11,7 +11,7 @@ export class Tab2Page implements OnInit {
   constructor(private db: DatabaseService,
               private router: Router,) 
               {
-                this.db.databaseConn();
+                // this.db.databaseConn();
                 this.db.getFavs()
               }
   ngOnInit() {  

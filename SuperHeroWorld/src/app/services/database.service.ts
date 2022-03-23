@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { Platform } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -32,16 +31,16 @@ export class DatabaseService {
         db.executeSql('CREATE TABLE IF NOT EXISTS favorites(char_id INTEGER PRIMARY KEY, name VARCHAR(255), image VARCHAR(255) )', [])
           .then((res) => {
             console.log('Executed SQL');
-            alert(JSON.stringify(res));
+            // alert(JSON.stringify(res));
           } )
           .catch(e =>{
                       console.log(e);
-                      alert(`executeSql ${JSON.stringify(e)}`)
+                      // alert(`executeSql ${JSON.stringify(e)}`)
                       });
       })
       .catch(e => {
                   console.log(e);
-                  alert(`sqlite.create ${JSON.stringify(e)}`)
+                  // alert(`sqlite.create ${JSON.stringify(e)}`)
                   });
     })
   }
@@ -50,6 +49,7 @@ export class DatabaseService {
   getFavs(){
     this.favList = []
     this.database.executeSql('SELECT * FROM favorites', []).then((res) => {
+      console.log('Favs fetched!');
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) { 
           this.favList.push({ 
@@ -60,7 +60,7 @@ export class DatabaseService {
         }
       }
     },(e) => {
-      alert(`getFavs() ${JSON.stringify(e)}`);
+      // alert(`getFavs() ${JSON.stringify(e)}`);
     });
     return this.favList;
   }
@@ -70,23 +70,26 @@ export class DatabaseService {
     this.database.executeSql(`
     INSERT INTO favorites (char_id, name, image) VALUES ('${char_id}', '${name}', '${image}')`, [])
     .then(res => {
-      alert("Added new element");
+      console.log('Fav added!');
+      // alert("Added new element");
       this.getFavs();
     }, (e) => {
-      alert(`addFav() ${JSON.stringify(e)}`);
+      // alert(`addFav() ${JSON.stringify(e)}`);
     });
   }
  
   // Get single object
   getFavById(char_id): Promise<any> {
-    return this.database.executeSql('SELECT * FROM favorites WHERE char_id = ?', [char_id])
+    return this.database.executeSql(`SELECT * FROM favorites WHERE char_id = ${char_id}`, [])
     .then(res => { 
       return {
-        
         char_id: res.rows.item(0).char_id,
         name: res.rows.item(0).name,  
         image: res.rows.item(0).image
       }
+    }).catch(e => {
+      // alert(`error getFavById() ${JSON.stringify(e)}`)
+      return {}
     });
   }
   // Update
@@ -102,10 +105,11 @@ export class DatabaseService {
     return this.database.executeSql(`
     DELETE FROM favorites WHERE char_id = ${char_id}`, [])
     .then(() => {
-      alert("Fav deleted!");
+      // alert("Fav deleted!");
+      console.log('Fav deleted!');
       this.getFavs();
     }).catch(e => {
-      alert(`deleteFav() ${JSON.stringify(e)}`)
+      // alert(`deleteFav() ${JSON.stringify(e)}`)
     });
   }
 }

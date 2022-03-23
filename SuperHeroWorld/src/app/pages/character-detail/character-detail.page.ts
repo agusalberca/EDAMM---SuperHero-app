@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ShAPIService } from '../../services/sh-api.service';
 import { DatabaseService } from '../../services/database.service';
 import { ActivatedRoute } from '@angular/router';
-import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @Component({
   selector: 'app-character-detail',
@@ -21,9 +20,8 @@ export class CharacterDetailPage implements OnInit {
     private route: ActivatedRoute,
     private ShAPI: ShAPIService,
     private db: DatabaseService,
-    private socialSharing: SocialSharing
     ) {
-      this.db.databaseConn(); 
+      // this.db.databaseConn(); 
     }
 
   ngOnInit() {  
@@ -33,18 +31,29 @@ export class CharacterDetailPage implements OnInit {
       this.superhero = res; 
     });
     this.isDataAvailable = true;
+    this.db.getFavById(this.char_id).then(res => {
+      if (res && Object.keys(res).length == 0) {
+        this.faved= false
+      }
+      else{
+        this.faved= true
+      }
+    }).catch(e => {
+      // alert(`error ngOnInit() ${JSON.stringify(e)}`)
+    })
+
   }
   favorite(){
     this.db.getFavById(this.char_id).then(res => {
       alert(`favorite1() ${JSON.stringify(res)}`)
-      if (res) {
-        this.delete_favorite()
-      }
-      else{
+      if (res && Object.keys(res).length == 0) {
         this.add_favorite()
       }
+      else{
+        this.delete_favorite()
+      }
     }).catch(e => {
-      alert(`error favorite() ${JSON.stringify(e)}`)
+      // alert(`error favorite() ${JSON.stringify(e)}`)
     })
 
 
@@ -59,43 +68,5 @@ export class CharacterDetailPage implements OnInit {
     this.db.deleteFav(this.char_id);
     console.log('delete_favorite getFAVS()',this.db.getFavs())
   }
-
-  
-  shareviaWhatsapp(){
-    this.socialSharing.shareViaWhatsApp(this.message,null,this.superhero.image.url)
-      .then((success) =>{
-          alert("Success");
-       })
-        .catch((e)=>{
-          alert(`shareviaWhatsapp() ${JSON.stringify(e)}`);
-        });
-    }
-    shareviaFacebook(){
-    this.socialSharing.shareViaFacebook(this.message,this.superhero.image.url,null)
-      .then((success) =>{
-           alert("Success");
-       })
-       .catch((e)=>{
-          alert(`shareviaFacebook() ${JSON.stringify(e)}`);
-        });
-    }
-    shareviaInstagram(){
-    this.socialSharing.shareViaInstagram(this.message,this.superhero.image.url)
-      .then((success) =>{
-          alert("Success");
-        })
-        .catch((e)=>{
-          alert(`shareviaInstagram() ${JSON.stringify(e)}`);
-        });
-    }
-    shareviaTwitter(){
-    this.socialSharing.shareViaTwitter(this.message,this.superhero.image.url,null)
-    .then((success) =>{
-          alert("Success");
-        })
-        .catch((e)=>{
-          alert(`shareviaTwitter() ${JSON.stringify(e)}`);
-        });
-    }
 
 }
